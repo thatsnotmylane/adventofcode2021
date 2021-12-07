@@ -9,7 +9,7 @@ var cki = new ConsoleKeyInfo();
 
 do
 {
-    DayTwo();
+    DayThree();
     while (Console.KeyAvailable == false)
     {
         Thread.Sleep(250);
@@ -27,6 +27,9 @@ do
             break;
         case "2":
             DayTwo();
+            break;
+        case "3":
+            DayThree();
             break;
         default:
         case "?":
@@ -156,17 +159,20 @@ void DayTwo()
         if (line.Contains("forward"))
         {
             p1horizontal = p1horizontal + amount;
+
             p2Horizontal = p2Horizontal + amount;
             p2Depth = p2Depth + (p2Aim * amount);
         }
         else if (line.Contains("down"))
         {
             p1depth = p1depth + amount;
+
             p2Aim = p2Aim + amount;
         }
         else if (line.Contains("up"))
         {
             p1depth = p1depth - amount;
+
             p2Aim = p2Aim - amount;
         }
         
@@ -177,4 +183,54 @@ void DayTwo()
 
     Console.WriteLine("Part Two");
     Console.WriteLine($"Horizontal: {p2Horizontal} Depth: {p2Depth} Aim: {p2Aim}. Part 2 Answer: {p2Horizontal * p2Depth}");
+}
+
+void DayThree()
+{
+    var filePath = @"C:\Users\thats\source\repos\adventofcode2021\inputs\day03input.txt";
+    var input = File.ReadAllLines(filePath);
+
+    var first = input.First();
+    var lineLen = first.Length;
+    var totalLines = input.Length;
+
+    var oneCounts = new int[lineLen];
+
+    foreach(var line in input)
+    {
+        var lineArr = line.ToArray();
+        for(var i = 0; i < lineLen; i++)
+        {
+            if(lineArr[i] == '1')
+            {
+                oneCounts[i]++;
+            }
+        }
+    }
+
+    var gamma = new int[lineLen];
+    var epsolon = new int[lineLen];
+
+    var gammaTotal = 0.0;
+    var epsTotal = 0.0;
+
+    for(var i = 0; i < lineLen; i++)
+    {
+        var exponent = lineLen - i - 1;
+        var col = oneCounts[i];
+        if(col > totalLines / 2)
+        {
+            gamma[i] = 1;
+            gammaTotal = gammaTotal + Math.Pow(2, exponent);
+            epsolon[i] = 0;
+        }
+        else
+        {
+            gamma[i] = 0;
+            epsolon[i] = 1;
+            epsTotal = epsTotal + Math.Pow(2, exponent);
+        }
+    }
+
+    Console.WriteLine($"G: {gammaTotal} E:{epsTotal}. Part 1 Anser: {gammaTotal * epsTotal}");
 }
