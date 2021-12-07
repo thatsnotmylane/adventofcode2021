@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 
 Console.WriteLine("Hello Advent of Code");
 
@@ -8,6 +9,7 @@ var cki = new ConsoleKeyInfo();
 
 do
 {
+    DayTwo();
     while (Console.KeyAvailable == false)
     {
         Thread.Sleep(250);
@@ -23,7 +25,9 @@ do
         case "1":
             DayOne();
             break;
-        
+        case "2":
+            DayTwo();
+            break;
         default:
         case "?":
             Console.WriteLine($"Usage: ");
@@ -131,4 +135,46 @@ void DayOne()
 
     Console.WriteLine($"Increased: {increased}, Decreased: {decresed}, No Changes: {noChange}");
     Console.WriteLine($"Window Size: {windowSize} - Increased: {windowIncreased}, Decreased: {windowDecreased}, No Changes: {windowNoChange}");
+}
+
+void DayTwo()
+{
+    var filePath = @"C:\Users\thats\source\repos\adventofcode2021\inputs\day02input.txt";
+    var input = File.ReadAllLines(filePath);
+
+    var p1horizontal = 0;
+    var p1depth = 0;
+
+    var p2Horizontal = 0;
+    var p2Depth = 0;
+    var p2Aim = 0;
+
+    foreach(var line in input)
+    {
+        int.TryParse(line.Last().ToString(), out var amount);
+
+        if (line.Contains("forward"))
+        {
+            p1horizontal = p1horizontal + amount;
+            p2Horizontal = p2Horizontal + amount;
+            p2Depth = p2Depth + (p2Aim * amount);
+        }
+        else if (line.Contains("down"))
+        {
+            p1depth = p1depth + amount;
+            p2Aim = p2Aim + amount;
+        }
+        else if (line.Contains("up"))
+        {
+            p1depth = p1depth - amount;
+            p2Aim = p2Aim - amount;
+        }
+        
+    }
+
+    Console.WriteLine("Part One");
+    Console.WriteLine($"Horizontal: {p1horizontal} Depth: {p1depth}. Part 1 Anser: {p1horizontal * p1depth}");
+
+    Console.WriteLine("Part Two");
+    Console.WriteLine($"Horizontal: {p2Horizontal} Depth: {p2Depth} Aim: {p2Aim}. Part 2 Answer: {p2Horizontal * p2Depth}");
 }
