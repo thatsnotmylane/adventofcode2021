@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using adventofcode2021;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 Console.WriteLine("Hello Advent of Code");
@@ -233,4 +234,85 @@ void DayThree()
     }
 
     Console.WriteLine($"G: {gammaTotal} E:{epsTotal}. Part 1 Anser: {gammaTotal * epsTotal}");
+
+    var oxygenRatings = input.Select(x => new string(x)).ToArray();
+    var carbonRatings = input.Select(x => new string(x)).ToArray();
+
+    var oxygenValue = "";
+    var carbonValue = "";
+
+    for(var i = 0; i < lineLen; i++)
+    {
+        
+
+        var oxyNext = new string[0];
+        var oneCount = 0;
+        var zeroCount = 0;
+
+        foreach(var rat in oxygenRatings)
+        {
+            if(rat[i] == '1')
+            {
+                oneCount++;
+            }
+            else if(rat[i] == '0')
+            {
+                zeroCount++;
+            }
+        }
+
+        if(oneCount >= zeroCount)
+        {
+            oxyNext = oxygenRatings.Where(x => x[i] == '1').ToArray();
+        }
+        else
+        {
+            oxyNext = oxygenRatings.Where(x => x[i] == '0').ToArray();
+        }
+        oxygenRatings = oxyNext;
+
+        if (oxygenRatings.Length == 1)
+        {
+            oxygenValue = oxygenRatings[0];
+        }
+
+        
+
+        var carbonNext = new string[0];
+        var cOneCount = 0;
+        var cZeroCount = 0;
+
+        foreach(var rat in carbonRatings)
+        {
+            if(rat[i] == '1')
+            {
+                cOneCount++;
+            }
+            else if(rat[i] == '0')
+            {
+                cZeroCount++;
+            }
+        }
+
+        if(cOneCount > cZeroCount)
+        {
+            carbonNext = carbonRatings.Where(x => x[i] == '1').ToArray();
+        }
+        else
+        {
+            carbonNext = carbonRatings.Where(x => x[i] == '0').ToArray();
+        }
+
+        carbonRatings = carbonNext;
+
+        if (carbonRatings.Length == 1)
+        {
+            carbonValue = carbonRatings[0];
+        }
+    }
+
+    var oxygenFinalVal = oxygenValue.FromBinaryStringToDecimal();
+    var carbonFinalVal = carbonValue.FromBinaryStringToDecimal();
+
+    Console.WriteLine($"Oxygen Value: {oxygenFinalVal} Carbon Value: {carbonFinalVal}. Part Two Answer: {oxygenFinalVal * carbonFinalVal}");
 }

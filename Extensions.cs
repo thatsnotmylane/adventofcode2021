@@ -8,10 +8,29 @@ namespace adventofcode2021;
 
 public static class Extensions
 {
-    //public static int Sum(this int[] source)
-    //{
+    public static double FromBinaryStringToDecimal(this string source)
+    {
+        if (String.IsNullOrEmpty(source) == false)
+        {
+            var lineLen = source.Length;
+            double result = 0;
+            for (var i = 0; i < lineLen; i++)
+            {
+                var thisChar = source[i];
 
-    //    return 0;
-    //}
+                var exponent = lineLen - i - 1;
+
+                if(thisChar == '1')
+                {
+                    result = result + Math.Pow(2, exponent);
+                }
+            }
+            return result;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
 
