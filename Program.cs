@@ -294,13 +294,13 @@ void DayThree()
             }
         }
 
-        if(cOneCount > cZeroCount)
+        if(cZeroCount <= cOneCount)
         {
-            carbonNext = carbonRatings.Where(x => x[i] == '1').ToArray();
+            carbonNext = carbonRatings.Where(x => x[i] == '0').ToArray();
         }
         else
         {
-            carbonNext = carbonRatings.Where(x => x[i] == '0').ToArray();
+            carbonNext = carbonRatings.Where(x => x[i] == '1').ToArray();
         }
 
         carbonRatings = carbonNext;
